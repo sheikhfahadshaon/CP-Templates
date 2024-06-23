@@ -10,17 +10,19 @@ const int N = 1e5 + 9;
 pair<int, int> pw[N], ipw[N], pref[N];
 int invp1, invp2;
 string s;
-int BigMod(int a, int p, int mod)
+int power(long long n, long long k, int mod)
 {
-    int ans = 1;
-    while (p)
+    int ans = 1 % mod;
+    n %= mod;
+    if (n < 0)
+        n += mod;
+    while (k)
     {
-        if (p & 1)
-            ans = (ans * a) % mod;
-        a = (a * a) % mod;
-        p >>= 1;
+        if (k & 1)
+            ans = (long long)ans * n % mod;
+        n = (long long)n * n % mod;
+        k >>= 1;
     }
-
     return ans;
 }
 
@@ -33,8 +35,8 @@ void prec()
         pw[i].second = 1LL * pw[i - 1].second * p2 % mod2;
     }
 
-    invp1 = BigMod(p1, mod1 - 2, mod1);
-    invp2 = BigMod(p2, mod2 - 2, mod2);
+    invp1 = power(p1, mod1 - 2, mod1);
+    invp2 = power(p2, mod2 - 2, mod2);
 
     ipw[0] = {1, 1};
     for (int i = 1; i < N; i++)
