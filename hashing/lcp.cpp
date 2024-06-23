@@ -92,7 +92,7 @@ int lcp(int i, int j, int x, int y)
     }
     return ans;
 }
-int compare(string s, int i, int j, int x, int y)
+int compare(int i, int j, int x, int y)
 {
     /* @brief
         0 -> equal
