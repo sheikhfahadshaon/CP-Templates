@@ -14,12 +14,29 @@ int lcp(int i, int j, int x, int y)
     }
     return ans;
 }
+int compare(string s, int i, int j, int x, int y)
+{
+    /* @brief
+        0 -> equal
+       -1 -> lesser
+        1 -> greater
+    */
+    int l = lcp(i, j, x, y);
+    if (j - i == y - x and l == j - i + 1)
+        return 0; // equal
+    else if (l == j - i + 1)
+        return -1;
+    else if (l == y - x + 1)
+        return 1;
+    // i + l or x + l may not exist so corner cases are handled separately.
+    return (s[i + l] < s[x + l] ? -1 : 1);
+}
 
 int32_t main()
 {
     prec();
-    string s = "tumikemonachomonachoaaaaa";
+    string s = "abcabcc";
     build(s);
 
-    cout << lcp(6, 12, 13, 24);
+    cout << compare(s, 0, 2, 4, 7);
 }
