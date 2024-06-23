@@ -97,10 +97,3 @@ pair<int, int> get_hash(int i, int j)
 
     return hs;
 }
-
-int32_t main()
-{
-    prec();
-    string s = "aabaa";
-    build(s);
-}
