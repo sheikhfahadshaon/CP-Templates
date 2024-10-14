@@ -2,9 +2,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int blockSize;
 struct query
 {
     int id, l, r;
+    bool operator<(query &b)
+    {
+        int blockNumber1 = l / blockSize;
+        int blockNumber2 = l / blockSize;
+        if (blockNumber1 != blockNumber2)
+            return blockNumber1 < blockNumber2;
+        return (blockNumber1 % 2 == 0) ? r < b.r : r > b.r;
+    }
 };
 
 int32_t main()
@@ -31,16 +40,10 @@ int32_t main()
         ranges[i].r = r - 1; // Make it 0-based
     }
 
-    int sq = sqrt(n); // Block size for Mo's Algorithm
+    blockSize = sqrt(n); // Block size for Mo's Algorithm
 
     // Sorting ranges based on Mo's order
-    sort(ranges.begin(), ranges.end(), [&](query &a, query &b)
-         {
-        int blockNumber1 = a.l / sq;
-        int blockNumber2 = b.l / sq;
-        if (blockNumber1 != blockNumber2)
-            return blockNumber1 < blockNumber2;
-        return (blockNumber1 % 2 == 0) ? a.r < b.r : a.r > b.r; });
+    sort(ranges.begin(), ranges.end());
 
     auto add = [&](int ind)
     {
