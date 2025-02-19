@@ -19,13 +19,13 @@ int32_t main()
         cerr << "Trying for the " << t << "-th time :((\n";
 
         string in = "input.txt";
-        string generator = "generator > input.txt";
+        string generator = "./generator > input.txt";
         system(generator.c_str()); // generating a case
 
-        string correct_solution = "correct < input.txt > correct_solution.txt";
+        string correct_solution = "./correct < input.txt > correct_solution.txt";
         system(correct_solution.c_str());
 
-        string wrong_solution = "wrong < input.txt > wrong_solution.txt";
+        string wrong_solution = "./wrong < input.txt > wrong_solution.txt";
         system(wrong_solution.c_str());
 
         ifstream correct_file;

@@ -2,9 +2,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define int long long
-#define pb push_back
-#define mp make_pair
 #define endl '\n'
 #define mem(dp, x) memset(dp, x, sizeof dp)
 #define SetBit(x, k) (x |= (1LL << k))
@@ -13,41 +10,46 @@ using namespace std;
 
 void solve()
 {
-    int x, m;
-    cin >> x >> m;
-
-    int ans = 0;
-    if (m == 1)
+    int n;
+    cin >> n;
+    vector<int> cnt(n + 10, 0);
+    set<pair<int, int>> edges;
+    for (int i = 1; i < n; i++)
     {
-        cout << 1 << endl;
-        return;
+        int u, v;
+        cin >> u >> v;
+        cnt[u]++;
+        cnt[v]++;
+        edges.insert({min(u, v), max(u, v)});
     }
-    if (x == 1)
-    {
-        cout << m << endl;
-        return;
-    }
-    for (int y = 1; y <= m and y < x; y++)
-    {
-        int d = x ^ y;
-        if (d % x == 0 or d % y == 0)
-            ans++;
-    }
-    // cerr << ans << endl;
+    vector<int> index(n);
+    for (int i = 1; i <= n; i++)
+        index[i - 1] = i;
 
-    int d = (m + x - 1) / x;
-    d *= (x);
-    d += 2 * x;
-
-    ans += (d / x);
-    // cerr << ans << endl;
-    for (int i = 0; i <= 10 and d - i * x >= 0; i++)
+    sort(index.begin(), index.end(), [&](int i, int j) -> bool
+         { return cnt[i] > cnt[j]; });
+    int u = index[0];
+    // cerr << "First Node: " << u << ' ' << cnt[u] << endl;
+    int ans = -1;
+    for (int i = 1; i < n; i++)
     {
-        int new_d = d - i * x;
-        int y = (new_d ^ x);
-        // cerr << "y " << y << endl;
-        if (y > m)
-            ans--;
+        int v = index[i];
+        int score = cnt[v] - 1;
+        if (edges.find({min(u, v), max(u, v)}) != edges.end())
+            score--;
+        // cerr << "v: " << v << " " << score << endl;
+        ans = max(ans, cnt[u] + score);
+    }
+
+    u = index[1];
+    for (int i = 2; i < n; i++)
+    {
+        int v = index[i];
+        int score = cnt[v] - 1;
+        if (edges.find({min(u, v), max(u, v)}) != edges.end())
+            score--;
+        // cerr << "v: " << v << " " << score << endl;
+        ans = max(ans, cnt[u] + score);
     }
     cout << ans << endl;
 }
@@ -58,8 +60,8 @@ signed main()
     cin.tie(0);
     cout.tie(0);
 
-    // int t;
-    // cin >> t;
-    // while (t--)
-    solve();
+    int t;
+    cin >> t;
+    while (t--)
+        solve();
 }

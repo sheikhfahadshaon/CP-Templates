@@ -1,14 +1,20 @@
-void printNGE(int arr[], int n)
+vector<int> nextGreater(vector<int> a, int n)
 {
-    int next, i, j;
-    for (i = 0; i < n; i++) {
-        next = -1;
-        for (j = i + 1; j < n; j++) {
-            if (arr[i] < arr[j]) {
-                next = arr[j];
-                break;
-            }
+    stack<int> s;
+    vector<int> prev(n);
+    for (int i = 0; i < n; i++)
+    {
+        while (!s.empty() and a[s.top()] < a[i])
+        {
+            s.pop();
         }
-        cout << arr[i] << " --> " << next << endl;
+        if (!s.empty() and a[s.top()] > a[i])
+            prev[i] = s.top();
+        else
+            prev[i] = -1;
+
+        s.push(i);
     }
+
+    return prev;
 }
